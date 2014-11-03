@@ -175,6 +175,7 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
  <iframe src="" name="bodycsv" id="bodycsv" style="display:none;"></iframe>    
  <input type="hidden" id="idTotalProcesados" value="<?php echo $nNews;?>"/>
  <input type="hidden" id="idTotalPendientes" value="<?php echo $nPend;?>"/>
+ <input type="hidden" id="idTotalTodos" value="0"/>
   <script type="text/javascript">
   (function () {
    var titleOriginal = document.title;   

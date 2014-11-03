@@ -5,7 +5,7 @@ require_once("../lib/load.php");
 
 //captura los ID que necesitan ser actualizado
 
-$SQL_ESTADO_ENVIO_1 = "SELECT   fecha_proceso,id_ref, id_sms,estado_envio,tipo FROM argenper_tblSMS where  cron_update=0 and estado_envio in (1) and fecha_proceso is not null and now()<DATE_ADD(fecha_proceso, INTERVAL 3 DAY)";
+$SQL_ESTADO_ENVIO_1 = "SELECT  cron_intentos, fecha_proceso,id_ref, id_sms,estado_envio,tipo FROM argenper_tblSMS where    estado_envio in (6) and cron_intentos < ".NUMERO_CRON_INTENTOS." ";
 $rows = DbArgenper::fetchALL($SQL_ESTADO_ENVIO_1); //get all status 1
 $datel = date("Y-m-d H:i:s");
 foreach($rows as $giro){
@@ -13,12 +13,8 @@ foreach($rows as $giro){
     try{
 
         $urlDomain = HTTP_SMS.HTTP_DOMAIN;
-        if($giro['tipo']=='V'){
-            
-            $new_statusOld = generatePostMSG(4, $urlDomain,USER_SMS, PASS_SMS, $giro['id_sms']);
-        }else{
-            $new_statusOld = generatePostMSG(3, $urlDomain,USER_SMS, PASS_SMS, $giro['id_sms']);
-        }
+        $new_statusOld = generatePostMSG(4, $urlDomain,USER_SMS, PASS_SMS, $giro['id_sms']);
+        
         $new_status = trim($new_statusOld);
         
         if($giro['tipo']=='V'){
@@ -29,7 +25,7 @@ foreach($rows as $giro){
                      'cron_update'=>1
                  );
                  DbArgenper::update('argenper_tblSMS', $params, 'id_ref = ' . $giro['id_ref']); 
-                 //argenper_logcron    id   id_ref   estado_origin  estado_fin   fecha  response_api
+                 
                  $paramsInsert = array(
                      'id'=>NULL,
                      'id_ref'=>$giro['id_ref'],
@@ -47,11 +43,15 @@ foreach($rows as $giro){
                 }elseif($new_status=='busy'){
                     $msg ="estado llamada ocupado";
                 }
-                $params = array(
-                         'estado_envio'=>6,                             
+                $estado=6;
+                if($giro['cron_intentos']==(NUMERO_CRON_INTENTOS-1)){
+                    $estado=5;
+                }
+                $intentos = $giro['cron_intentos'] + 1;
+                    $params = array(
+                        'estado_envio' => $estado,
                          'respuesta_api'=>$msg,
-                         'argenper_estado'=>'PP',
-                         'cron_intentos'=>1
+                         'cron_intentos'=>$intentos
                      );
                      DbArgenper::update('argenper_tblSMS', $params, 'id_ref = ' . $giro['id_ref']);   
                      
@@ -85,11 +85,8 @@ foreach($rows as $giro){
 
                     );
                     DbArgenper::insert('argenper_logcron', $paramsInsert); 
-            }else{ 
-                
-                
+            }else{                 
                     $params = array(
-                         //'estado_envio'=>5,
                          'estado_envio'=>5,                             
                          'respuesta_api'=>$new_status,
                          'argenper_estado'=>'PP'
@@ -108,46 +105,7 @@ foreach($rows as $giro){
                     DbArgenper::insert('argenper_logcron', $paramsInsert); 
                }
 
-        }else{
-            if(strlen($new_status)==1){
-                if($new_status==2){
-                    //no hacemos nada y solo se buscara cada 5 minutos hasta q pase a un nuevo estado
-
-                }else{
-                    if ($actual_status!=$new_status) { //si estados son diferentes actualiza con estado desde API
-                        $params = array(
-                            'estado_envio' => $new_status,
-                            'fecha_actualizacion_estado' => $datel,
-                            'cron_update'=>1
-                        );
-                        DbArgenper::update('argenper_tblSMS', $params, 'id_ref = ' . $giro['id_ref']); 
-                        //argenper_logcron    id   id_ref   estado_origin  estado_fin   fecha  response_api
-                        $paramsInsert = array(
-                            'id'=>NULL,
-                            'id_ref'=>$giro['id_ref'],
-                            'estado_origin'=>$actual_status,
-                            'estado_fin'=>$new_status,
-                            'fecha' =>$datel,
-                            'response_api'=>''
-
-                        );
-                        DbArgenper::insert('argenper_logcron', $paramsInsert);            
-                    }
-                }
-            }else{
-                    $paramsInsert = array(
-                        'id'=>NULL,
-                        'id_ref'=>$giro['id_ref'],
-                        'estado_origin'=>$actual_status,
-                        'estado_fin'=>'',
-                        'fecha' =>$datel,
-                        'response_api'=>$new_status
-
-                    );
-                    DbArgenper::insert('argenper_logcron', $paramsInsert);            
-
-            }
-        }    
+        }  
     }catch (Exception $e) {
             $paramsInsert = array(
                 'id'=>NULL,

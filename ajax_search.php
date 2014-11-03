@@ -74,6 +74,8 @@ function searching($_P)
                      $add = " and estado_envio in (2)";
                 }elseif($droM==8){
                     return searchingSMS($_P);
+                }elseif($droM==9){
+                    $add = " and estado_envio in (6)";
                 }
                 $where = " where  ".$colFecha." > '".$feIn." 00:00:00' and ".$colFecha."  < '".$feFi." 23:59:59' ".$add;
             }

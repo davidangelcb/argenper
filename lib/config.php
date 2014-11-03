@@ -70,3 +70,8 @@ defined('CHECK_PENDIN_MINUTES') || define("CHECK_PENDIN_MINUTES","330000");//( M
 // CONFIGURACION RECORDATORIO  CONTADOR
 defined('CHECK_PENDIN_CRON') || define("CHECK_PENDIN_CRON","test");// test (desactivo)  live (activado)
 defined('CHECK_PENDIN_CRON_MINUTES') || define("CHECK_PENDIN_CRON_MINUTES","40000");//( MINUTOS * 60 )* 1000  = default cada 20 segundos
+
+//
+defined('MYSQL_FORMAT_DAYS') || define("MYSQL_FORMAT_DAYS","30 DAY");//1 MONTH, 2 DAY,  for filter in tab TODOS
+defined('NUMERO_CRON_INTENTOS') || define("NUMERO_CRON_INTENTOS","20");//veces que intentara el cron hasta que consiga resutado positivo
+

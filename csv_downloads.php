@@ -82,6 +82,8 @@ function getEstadoInfo($estado,$api,$arge){
                     $active=true;
                     require("csv_downloads_sms.php");
                     exit();
+                }elseif($droM==9){
+                     $add = " and estado_envio in (6)";                 
                 }
                 $where = " where  ".$colFecha." > '".$feIn." 00:00:00' and ".$colFecha."  < '".$feFi." 23:59:59' ".$add;
             }

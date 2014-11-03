@@ -13,7 +13,9 @@ if (!sessionValid()) {
 function listNews($_GET)
 {
 	//Aqui se ejecuta el SYS_SMS sincronizador en segundo plano
-        file_get_contents('http://192.168.100.10/SYS_SMS/controllers/sincronizarController.php');
+        if (APPLICATION_ENV == 'production') {
+            file_get_contents('http://192.168.100.10/SYS_SMS/controllers/sincronizarController.php');
+        }
         // verifica identidad en base de datos
         require_once("lib/load.php");
         $page = $_GET['page']; // get the requested page 

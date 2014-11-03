@@ -10,6 +10,7 @@
                 <option value="3">Items Pendientes (por fecha de ingreso)</option>
                 <option value="4">Todos (por fecha de ingreso)</option>
                 <option value="8">Todos SMS enviados</option>
+                <option value="9">Fijos Error</option>
             </select>
         </div>
     </div>

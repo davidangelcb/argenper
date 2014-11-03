@@ -14,6 +14,51 @@ function gridReload(){
     var cd_mask = jQuery("#numGiro").val(); 
     jQuery("#list1").jqGrid('setGridParam',{url:"ajax_procesando.php?oper1=listPro_&cd_mask="+cd_mask,page:1}).trigger("reloadGrid"); 
 }
+//iniciamos busqueda para CRON
+var timeoutHnd5;
+function filtraCnt5(){
+	if(timeoutHnd5) 
+            clearTimeout(timeoutHnd4);
+        timeoutHnd4 = setTimeout(gridReload5,500);    
+}
+function gridReload5(){  
+    var cd_mask = jQuery("#numGiro5").val(); 
+    jQuery("#list6").jqGrid('setGridParam',{url:"ajax_encron.php?oper1=listPen_&cd_mask="+cd_mask,page:1}).trigger("reloadGrid"); 
+}
+function grillaClear5(){
+    jQuery("#numGiro5").val(""); 
+    gridReload5();
+}
+//iniciamos busqueda para TODOS
+var timeoutHnd4;
+function filtraCnt4(){
+	if(timeoutHnd4) 
+            clearTimeout(timeoutHnd4);
+        timeoutHnd4 = setTimeout(gridReload4,500);    
+}
+function gridReload4(){  
+    var cd_mask = jQuery("#numGiro4").val(); 
+    jQuery("#list5").jqGrid('setGridParam',{url:"ajax_todos.php?oper1=listPen_&cd_mask="+cd_mask,page:1}).trigger("reloadGrid"); 
+}
+function grillaClear4(){
+    jQuery("#numGiro4").val(""); 
+    gridReload4();
+}
+//iniciamos busqueda para Pendiente
+var timeoutHnd3;
+function filtraCnt3(){
+	if(timeoutHnd3) 
+            clearTimeout(timeoutHnd3);
+        timeoutHnd3 = setTimeout(gridReload3,500);    
+}
+function gridReload3(){  
+    var cd_mask = jQuery("#numGiro3").val(); 
+    jQuery("#list4").jqGrid('setGridParam',{url:"ajax_pendiente.php?oper1=listPen_&cd_mask="+cd_mask,page:1}).trigger("reloadGrid"); 
+}
+function grillaClear3(){
+    jQuery("#numGiro3").val(""); 
+    gridReload3();
+}
 // buscar por NO FECHA
 var timeoutHnd2;
 function filtraCnt2(){
@@ -285,6 +330,8 @@ function refrescaGrilla(){
         case 3: $('#list2').trigger( 'reloadGrid' ); break;
         case 4: $('#list3').trigger( 'reloadGrid' ); break;
         case 5: $('#list4').trigger( 'reloadGrid' ); break;
+        case 6: $('#list5').trigger( 'reloadGrid' ); break;
+        case 7: $('#list6').trigger( 'reloadGrid' ); break;
     }
 }
 function openSelectcontrol() {
@@ -373,7 +420,13 @@ function SetProcess(n) {
             break
         case  5:
             EnviosPendientes();
-            break            
+            break;
+        case  6:
+            EnviosTodos();
+            break;
+        case  7:
+            EnviosCronFijo();
+            break;    
     }
 }
 ;
@@ -420,6 +473,57 @@ if(ActiProcesando){
                             $('#msgAlert5').html("<b style='color:green;'>Se proceso Todos los pedidos</b>");
 
                             setTimeout("close5()",2000);
+                            //
+                        } 
+                        else {
+                            muestraAlertas(1,5);
+                            alert('Error en el proceso, Intente luego!');            
+                        }        
+                    }    
+                });
+    }else{
+     alert("Espere se esta ejecutando un proceso!");
+    }                
+}
+var ActiProcesandoTodos = true;
+function EnviarPorProcesarTodos() {
+    
+if(ActiProcesandoTodos){    
+            var s; 
+            s = jQuery("#list5").jqGrid('getGridParam','selarrrow');
+            ab = $.trim(s);
+            if(ab===''){
+                alert("Seleccione como minimo 1 registro!");
+                return;
+            }
+            
+            
+            //var idss = s.split(",");
+            var ids = "";
+            for(var i=0; i<s.length;i++){
+                var nn= parseInt(s[i]); 
+                if(nn>0){
+                    if(ids==''){
+                        ids+=nn;
+                    }else{
+                        ids+=","+nn;
+                    }
+                }
+            }
+            muestraAlertas(0,6);
+            ActiProcesandoTodos=false;
+             $.ajax({        
+                url: 'ajax_pendiente.php',        type: 'post',        
+                data:{  
+                oper1: 'procesa',    ids: ids},        
+                datetype: 'html',        
+                    success: function(data){     
+                        ActiProcesandoTodos=true;
+                        if(data==="Done"){                
+                            progressBar(100, $('#progressBar6'));
+                            $('#msgAlert6').html("<b style='color:green;'>Se proceso Todos los pedidos</b>");
+
+                            setTimeout("close6()",2000);
                             //
                         } 
                         else {
@@ -615,6 +719,10 @@ function PorProcesarDepositos() {
                         }        
                     }    
                 });
+}
+function close6(){    
+    muestraAlertas(1,6);
+    $('#list5').trigger( 'reloadGrid' );
 }
 function close5(){    
     muestraAlertas(1,5);

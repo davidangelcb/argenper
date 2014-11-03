@@ -20,7 +20,7 @@ function listPen($_GET)
         $limit = $_GET['rows']; // get how many rows we want to have into the grid 
         $sidx = $_GET['sidx']; // get index row - i.e. user click to sort 
         $sord = $_GET['sord']; // get the direction 
-
+        $dateFilter = "and fecha_ingreso BETWEEN DATE_SUB(NOW(), INTERVAL ".MYSQL_FORMAT_DAYS.") AND NOW() ";
         if(!$sidx) $sidx =1;
         
         if(isset($_GET["cd_mask"])) 
@@ -31,9 +31,10 @@ function listPen($_GET)
         $filtro = ""; 
         if($nm_mask!=''){ 
             $filtro.= " AND numero_giro LIKE '".$nm_mask."%'";
+            $dateFilter= "";
         }
         
-        $query = "SELECT COUNT(*) AS count from  argenper_tblSMS where estado_envio=5  ".$filtro." or argenper_estado='XX' ".$filtro." ";
+        $query = "SELECT COUNT(*) AS count from  argenper_tblSMS where estado_envio not in (100,101)  ".$filtro.$dateFilter." or argenper_estado='XX' ".$filtro.$dateFilter." ";
 	$dataTotal = DbArgenper::fetchOne($query);//
         
         $count = $dataTotal['count']; 
@@ -49,7 +50,7 @@ function listPen($_GET)
             $start = 0; // do not put $limit*($page - 1) 
         }
         
-        $SQL = "SELECT  id_ref as id, tipo, numero_giro,  nombre_cliente,  respuesta_api, celular_cliente,  mensaje_cliente FROM   argenper_tblSMS where estado_envio=5  ".$filtro." or argenper_estado='XX' ".$filtro." ORDER BY $sidx $sord LIMIT $start , $limit"; 
+        $SQL = "SELECT  id_ref as id,tipo,tip_entrega, nombre_oficina as oficina,DATE_FORMAT(fecha_ingreso,'%m-%d-%Y') as fecha_ingreso ,estado_envio, numero_giro,  nombre_cliente,  respuesta_api, celular_cliente,  mensaje_cliente FROM   argenper_tblSMS where estado_envio not in (101,100)  ".$filtro.$dateFilter." or argenper_estado='XX' ".$filtro.$dateFilter." ORDER BY $sidx $sord LIMIT $start , $limit"; 
         // Error: Tamaño mensaje(150)
         // Error: Verificacion Celular 
         // Error: Argenper Validacion 
@@ -60,16 +61,35 @@ function listPen($_GET)
         $response->page = $page; 
         $response->total = $total_pages; 
         $response->records = $count; 
+        $estado="";
         $i=0;
-        $tipo = "";
         foreach($giros as $row){
+            if(($row['argenper_estado'] ='PP') && ($row['estado_envio']==0)){
+                if($row['tip_entrega'] == 'O'){
+                    $estado="Por Proc. Oficina";
+                }else{
+                    $estado="Por Proc. Depositos";
+                }
+            }
+            $act = array (100,1,2,3,4); 
+            if(empty($row['fecha_entrega']) && (in_array((int)$row['estado_envio'], $act, true))){
+                $estado="Sin Fecha de Entre.";
+            }
+            //argenper_estado = 'EE' ".$filtro." or fecha_entrega is not null  and  estado_envio in (100,1,2,3,4) 
+            if(!empty($row['fecha_entrega']) && (in_array((int)$row['estado_envio'], $act, true))){
+                $estado="Procesados";
+            }
+            if($row['estado_envio']==5){
+                $estado="Pendiente";
+            }
             if($row['tipo']=='T'){
                 $tipo = "Celular";
             }else{
                 $tipo = "Fijo";
             }
             $response->rows[$i]['id']=$row['id']; 
-            $response->rows[$i]['cell']=array('',$row['numero_giro'],htmlentities($row['nombre_cliente']),$row['respuesta_api'],$row['celular_cliente'],$tipo,$row['mensaje_cliente']); 
+            //colNames:['','# Giro','Oficina', 'Cliente','Fecha Ing.','Estado', 'Numero','Mensaje'], 
+            $response->rows[$i]['cell']=array('',$row['numero_giro'],$row['oficina'],htmlentities($row['nombre_cliente']),$row['fecha_ingreso'],$estado,$tipo,$row['celular_cliente'],$row['mensaje_cliente']); 
             $i++; 
         }
 

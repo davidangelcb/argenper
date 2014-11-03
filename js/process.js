@@ -243,7 +243,7 @@
                 datatype: "json", 
                 multiselect: true,
                 width: 800,
-                colNames:['','# Giro', 'Cliente','Estatus', 'Celular','Mensaje'], 
+                colNames:['','# Giro', 'Cliente','Estatus', 'Numero','Tipo','Mensaje'], 
                 colModel:[ 
                     {name:'myedit', width:30, fixed:true, sortable:false, resize:false, formatter:'actions', formatoptions:{keys:true, editbutton:true, editformbutton: true, delbutton: false,editOptions: {
                         closeOnEscape: true,
@@ -257,7 +257,8 @@
                     {name:'nombre_cliente',index:'nombre_cliente', width:180}, 
                     {name:'respuesta_api',index:'respuesta_api', width:140, align:"left"}, 
                     {name:'celular_cliente',index:'celular_cliente', width:70, align:"left",editable: true}, 
-                    {name:'mensaje_cliente',index:'mensaje_cliente', width:350,align:"left",editable: true
+                    {name:'tipo',index:'tipo', width:70, align:"left"}, 
+                    {name:'mensaje_cliente',index:'mensaje_cliente', width:280,align:"left",editable: true
                         ,edittype: 'textarea',
                          editoptions: {
                             size: 25,
@@ -290,6 +291,99 @@
                 }    
             });        
     }
+    /* Nuevos envios por procesar*/    
+    function EnviosTodos(){
+            var consumerPriceCountryLastSel = null;
+            jQuery("#list5").jqGrid({ 
+                url:'ajax_todos.php?oper1=listPen_', 
+                datatype: "json", 
+                multiselect: true,
+                width: 800,
+                colNames:['','# Giro','Oficina', 'Cliente','Fecha Ing.','Estado','Tipo', 'Numero','Mensaje'], 
+                colModel:[ 
+                    {name:'myedit', width:30, fixed:true, sortable:false, resize:false, formatter:'actions', formatoptions:{keys:true, editbutton:true, editformbutton: true, delbutton: false,editOptions: {
+                        closeOnEscape: true,
+                        closeAfterAdd: true,
+                        viewPagerButtons: false,
+                        closeAfterEdit: true,
+                        reloadAfterSubmit: true,
+                        afterSubmit: afterSaveEditNews
+                    }}},
+                    {name:'numero_giro',index:'numero_giro', width:60}, 
+                    {name:'oficina',index:'oficina', width:110}, 
+                    {name:'nombre_cliente',index:'nombre_cliente', width:120}, 
+                    {name:'fecha_ingreso',index:'fecha_ingreso', width:80, align:"left"}, 
+                    {name:'estado_envio',index:'estado_envio', width:130, align:"left"}, 
+                    {name:'tipo',index:'tipo', width:80, align:"left"}, 
+                    {name:'celular_cliente',index:'celular_cliente', width:70, align:"left",editable: true}, 
+                    {name:'mensaje_cliente',index:'mensaje_cliente', width:180,align:"left",editable: true
+                        ,edittype: 'textarea',
+                         editoptions: {
+                            size: 25,
+                            maxlength: 160 
+                       }                     
+                    }
+                ],
+                 editurl: "ajax_todos.php?oper1=edit",   
+                rowNum:50, 
+                rowList:[50,100,150], 
+                pager: '#pager5', 
+                sortname: 'id', 
+                viewrecords: true, 
+                sortorder: "desc", 
+                caption:"Lista de Todos los Clientes (seleccione para poder enviar a 'Por Procesar')", 
+                hidegrid: false, 
+                height: 500 });
+                $('#list5').trigger( 'reloadGrid' );
+
+    }   
+     
+//cron estatus model
+    function EnviosCronFijo(){
+            var consumerPriceCountryLastSel = null;
+            jQuery("#list6").jqGrid({ 
+                url:'ajax_encron.php?oper1=listPen_', 
+                datatype: "json", 
+                multiselect: true,
+                width: 800,
+                colNames:['','# Giro','Oficina', 'Cliente','Fecha Proc.','Estatus', 'Numero','Mensaje'], 
+                colModel:[ 
+                    {name:'myedit', width:30, fixed:true, sortable:false, resize:false, formatter:'actions', formatoptions:{keys:true, editbutton:true, editformbutton: true, delbutton: false,editOptions: {
+                        closeOnEscape: true,
+                        closeAfterAdd: true,
+                        viewPagerButtons: false,
+                        closeAfterEdit: true,
+                        reloadAfterSubmit: true,
+                        afterSubmit: afterSaveEditNews
+                    }}},
+                    {name:'numero_giro',index:'numero_giro', width:60}, 
+                    {name:'oficina',index:'oficina', width:110}, 
+                    {name:'nombre_cliente',index:'nombre_cliente', width:120}, 
+                    {name:'fecha_proceso',index:'fecha_proceso', width:80, align:"left"}, 
+                    {name:'respuesta_api',index:'respuesta_api', width:130, align:"left"}, 
+                    {name:'celular_cliente',index:'celular_cliente', width:70, align:"left",editable: true}, 
+                    {name:'mensaje_cliente',index:'mensaje_cliente', width:180,align:"left",editable: true
+                        ,edittype: 'textarea',
+                         editoptions: {
+                            size: 25,
+                            maxlength: 160 
+                       }                     
+                    }
+                ],
+                 editurl: "ajax_encron.php?oper1=edit",   
+                rowNum:50, 
+                rowList:[50,100,150], 
+                pager: '#pager6', 
+                sortname: 'id', 
+                viewrecords: true, 
+                sortorder: "desc", 
+                caption:"Lista de Todos los Clientes Fijos (aun estan en proceso de confirmar llamada)", 
+                hidegrid: false, 
+                height: 500 });
+                $('#list6').trigger( 'reloadGrid' );
+
+    }   
+
     /*area reportes*/
     function buscarTemp(n){
         if(n==1){

@@ -1,0 +1,1 @@
+ alter table `argenpersms`.`argenper_tblsms` add column `cron_intentos` int (10) DEFAULT '0' NULL  after `cron_update`
