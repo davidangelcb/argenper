@@ -17,7 +17,7 @@ if (APPLICATION_ENV == 'production' || defined('RUN_CRON')) {
 // DATOS ADMINISTRATIVOS
 defined('WEB_MASTER_MAIL') || define("WEB_MASTER_MAIL","sistemas01@argenper.com.pe");
 // PATHS Y LINKS
-defined('HOME_DIR') || define('HOME_DIR','/argenpersms/'); // link de inicio
+defined('HOME_DIR') || define('HOME_DIR','/david/mensajes/'); // link de inicio
 defined('HOME_FS_DIR') || define('HOME_FS_DIR',$_SERVER['DOCUMENT_ROOT'].HOME_DIR); // path de inicio
 // DB INFO
 defined('DB_TOOL_NAME') || define("DB_TOOL_NAME","argenper");
@@ -29,7 +29,7 @@ if (APPLICATION_ENV == 'production' || defined('RUN_CRON')) {
 
 } else {
     defined('PROTOCOL_TYPE') || define('PROTOCOL_TYPE', 'http://');
-    defined('BASE_URL') || define('BASE_URL', 'http://argenper.dev');
+    defined('BASE_URL') || define('BASE_URL', 'http://localhost/david/');
 }
 // SESSION
 defined('SESS_COOKIE_NAME') || define("SESS_COOKIE_NAME","ARGEN_SESSID"); // nombre de la cookie de sesion

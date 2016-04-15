@@ -117,7 +117,7 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
             <div class="textoBl_10" style="padding: 10px;float: right;"><b><?php echo $dias[date('w')]." ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y') ;?></b></div>
         </div>
         <div id="cabeceraLogo">
-            <div class="logo" style="padding: 10px; top:15px; position: absolute;left: 15px;"></div>
+            <div   style="padding: 10px; top:15px; position: absolute;left: 15px;"></div>
             <div class="nameTool" style="padding: 5px;top:30px; position: absolute;right: 0px;"></div>
         </div>
         <div id="cabeceraFinal">
