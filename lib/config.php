@@ -43,11 +43,14 @@ defined('PAG_BACK') || define("PAG_BACK","index.php");
 //                  INFO MENSAJESONLINE KEYS
 /***************************************************************************************************/
 /***************************************************************************************************/
-defined('USER_SMS') || define("USER_SMS","argenper_sms");//argenper_sms
-defined('PASS_SMS') || define("PASS_SMS","Arg3np3r8M82014");//Arg3np3r8M82014
+defined('USER_SMS') || define("USER_SMS","sms_online");//argenper_sms
+defined('PASS_SMS') || define("PASS_SMS","P@ssw0rd!2014");//Arg3np3r8M82014
 defined('HTTP_SMS') || define("HTTP_SMS","https");
-defined('HTTP_DOMAIN') || define("HTTP_DOMAIN","://www.mensajesonline.pe/sendsms?app=webservice");
-/***************************************************************************************************/
+defined('HTTP_DOMAIN') || define("HTTP_DOMAIN","://www.mensajesonline.pe/sendsms?app=webservices");
+/**************************************************
+
+ * 
+ * *************************************************/
 /***************************************************************************************************/
 //SSOPORTE EMAIL
 defined('HELP_EMAIL') || define("HELP_EMAIL","sistemas01@argenper.com.pe");
@@ -75,3 +78,8 @@ defined('CHECK_PENDIN_CRON_MINUTES') || define("CHECK_PENDIN_CRON_MINUTES","4000
 defined('MYSQL_FORMAT_DAYS') || define("MYSQL_FORMAT_DAYS","30 DAY");//1 MONTH, 2 DAY,  for filter in tab TODOS
 defined('NUMERO_CRON_INTENTOS') || define("NUMERO_CRON_INTENTOS","20");//veces que intentara el cron hasta que consiga resutado positivo
 
+defined('awsAccessKey') || define('awsAccessKey', 'AKIAJB5UGPX76AMUSEMQ');
+defined('awsSecretKey') || define('awsSecretKey', '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');
+defined('awsBucket') || define('awsBucket', 'mensajesonline');
+defined('awsToolsPrefix') || define('awsToolsPrefix', 'sounds/'); // debe terminar en '/'
+defined('awsWebPrefix') || define('awsWebPrefix', 'docs/'); // debe terminar en '/'

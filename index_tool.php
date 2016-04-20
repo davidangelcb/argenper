@@ -50,6 +50,8 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
         <script type="text/javascript" src="jquery/js/jquery.jqGrid.min.js"></script>
         <script type="text/javascript" src="js/process.js"></script>
         <script type="text/javascript" src="js/misc.js"></script>
+        <script type="text/javascript" src="js/models.js"></script>
+        <script type="text/javascript" src="js/llamadas.js"></script>
      <script type="text/javascript"> 
         function progressBar(percent, $element) {
                 var progressBarWidth = percent * $element.width() / 100;
@@ -176,6 +178,10 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
  <input type="hidden" id="idTotalProcesados" value="<?php echo $nNews;?>"/>
  <input type="hidden" id="idTotalPendientes" value="<?php echo $nPend;?>"/>
  <input type="hidden" id="idTotalTodos" value="0"/>
+ <input type="hidden" id="idTotalTodos" value="0"/>
+ <form name="export" id="export" target="bodycsv"  method="post">
+     <input type="hidden" id="directorio" name="directorio"  value="">
+ </form>
   <script type="text/javascript">
   (function () {
    var titleOriginal = document.title;   

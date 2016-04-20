@@ -94,6 +94,9 @@ var menuActive = function(modulo) {
     if(modulo==2){
         loadTemplates();
     }
+    if(modulo==5){
+        loadTemplates();
+    }
 };
 function setTemplate(t){
     var cnt = $("#input-empresa").val();
@@ -168,6 +171,7 @@ function closePreview(){
     $("#preview_").hide();
 }
 function loadTemplates(){
+    loadGrupos();
         $.ajax({        
             url: 'ajax_search.php',        
             type: 'post',        
@@ -176,18 +180,39 @@ function loadTemplates(){
             datetype: 'html',        
                 success: function(data){     
                     $("#selectTemplate").html(data);
+                    
                 }    
             });
+}
+function loadGrupos(){
+        $.ajax({        
+            url: 'models/directorio.php',        
+            type: 'post',        
+            data:{  
+            oper: 'listarSelect'},        
+            datetype: 'html',        
+                success: function(data){     
+                    $("#DirectorioGrupos").html(data);
+                    clearDirectorioGrupos();
+                }    
+            });
+}
+function clearDirectorioGrupos(){
+    var html = '<span class="titleSMS">Enviar SMS a Grupo(s)<br><br></span>';
+        html+= '<select name="selectto" id="select-to" multiple size="5" class="multiple-select"></select>';
+        $("#DirectorioGruposTo").html(html);
 }
 function activeTemplate(){
     jQuery("#addgrid").jqGrid({        
             url:'ajax_template.php?oper=listar&q=1',
             datatype: "json",
-            colNames:['Id','Titulo', 'Mensaje'],
+            colNames:['Id','Titulo', 'Fecha','Archivo ', 'Link'],
             colModel:[
-                    {name:'id',index:'id', width:80,editable:false,editoptions:{readonly:true,size:10}},
-                    {name:'titulo',index:'titulo', width:200,editable:true,editoptions:{size:20}},
-                    {name:'note',index:'note', width:520, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"8",cols:"20"}}		
+                    {name:'id',index:'id', width:20,editable:false,editoptions:{readonly:true,size:10}},
+                    {name:'titulo',index:'titulo', width:80,editable:false,editoptions:{size:20}},
+                    {name:'fecha',index:'fecha', width:43,editable:false,editoptions:{size:20}},
+                    {name:'file',index:'file', width:80,editable:false,editoptions:{size:20}}    ,
+                    {name:'url',index:'url', width:370,editable:false,editoptions:{size:20}}    
             ],
             rowNum:10,
             rowList:[10,20,30],
@@ -336,7 +361,8 @@ function refrescaGrilla(){
 }
 function openSelectcontrol() {
     $("#selectControl").show("fast");
-    EnviosNews();  // primero OFicina
+    //EnviosNews();  // primero OFicina
+    directorio();
     if(SelectAct==1){
         windowProcessAuto=1;
     }

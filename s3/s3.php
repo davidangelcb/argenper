@@ -560,7 +560,7 @@ class S3
 	* @param array $requestHeaders Array of request headers or content type as a string
 	* @param constant $storageClass Storage class constant
 	* @param constant $serverSideEncryption Server-side encryption
-	* @return boolean
+	* @return string
 	*/
 	public static function putObject($input, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = self::STORAGE_CLASS_STANDARD, $serverSideEncryption = self::SSE_NONE)
 	{
@@ -624,9 +624,9 @@ class S3
 		{
 			self::__triggerError(sprintf("S3::putObject(): [%s] %s",
 			$rest->response->error['code'], $rest->response->error['message']), __FILE__, __LINE__);
-			return false;
+			return var_dump($rest);
 		}
-		return true;
+		return var_dump($rest);
 	}
 	/**
 	* Put an object from a file (legacy function)

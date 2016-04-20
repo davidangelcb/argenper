@@ -1,4 +1,4 @@
-<div class="boxMenu" title="Procesa SMS de los Clientes o Abonados">
+<div class="boxMenu" title="Directorio agrega o edita Grupos">
     <figure onclick="menuActive(1)">
         <img src="media/menu/proceso.png" alt=""   />                                              
         <figcaption >Directorio</figcaption>
@@ -16,10 +16,16 @@
         <figcaption>LLamadas</figcaption>
     </figure>
 </div>
-
+<div class="boxMenu" title="Estado de LLamadas">
+    <figure  onclick="menuActive(5)">
+        <img src="media/menu/sms_off.png" alt="" />                                              
+        <figcaption>Estado de LLamadas</figcaption>
+    </figure>
+</div>
 <div class="boxMenu" title="Genera Reportes en formatos .csv ">
     <figure  onclick="menuActive(4)">
         <img src="media/menu/reporte.png" alt="" />                                              
         <figcaption>REPORTES</figcaption>
     </figure>
 </div>
+

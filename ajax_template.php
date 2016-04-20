@@ -39,7 +39,7 @@ class Template extends Controller
             $start = 0; // do not put $limit*($page - 1) 
         }
 
-        $SQL = "SELECT   id,  titulo, sms FROM    argenper_template where  estado='E'  ORDER BY $sidx $sord LIMIT $start , $limit"; 
+        $SQL = "SELECT   id,  titulo, fecha, file ,url FROM    argenper_template where  estado='E'  ORDER BY $sidx $sord LIMIT $start , $limit"; 
         $giros = DbArgenper::fetchAll($SQL);//fetchAll
         
         $response->page = $page; 
@@ -48,7 +48,7 @@ class Template extends Controller
         $i=0;
         foreach($giros as $row){
             $response->rows[$i]['id']=$row['id']; 
-            $response->rows[$i]['cell']=array($row['id'],$row['titulo'],$row['sms']); 
+            $response->rows[$i]['cell']=array($row['id'],$row['titulo'],$row['fecha'],$row['file'],$row['url'] ); 
             $i++; 
         }
         return json_encode($response);

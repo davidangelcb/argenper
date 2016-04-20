@@ -100,9 +100,9 @@ function loadTemplate()
         require_once("lib/load.php");
         $SQL = "select id, titulo, sms from argenper_template where estado='E'"; 
         $templates = DbArgenper::fetchAll($SQL);
-        $html='<label for="input-nombre" class="contacTitles">Template:</label><select onchange="setTemplate(this)" id="input-empresa" name="nombre" style="width: 325px;"  class="btnForm"><option value="0|||">-- Ninguno --</option>';
+        $html='<label for="input-nombre" class="contacTitles">Template:</label><select onchange="" id="templateActive" name="nombre" style="width: 325px;"  class="btnForm"><option value="0">-- Ninguno --</option>';
         foreach ($templates as $template) {
-            $html.= '<option value="'.$template['id'].'|||'.$template['sms'].'" >'.$template['titulo'].'</option>';
+            $html.= '<option value="'.$template['id'].'" >'.$template['titulo'].'</option>';
         }
         $html.= '</select>';
         return $html;

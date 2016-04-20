@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/david/mensajes/lib/config.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/index_tool.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/test.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/footer.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/models/directorio.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/ajax.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/js/misc.js</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/ajax_pendiente.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/lib/Controller.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/models/grabacion.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/lib/DbArgenper.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/lib/ArAccess_db.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/modules.php</file>
+            <file>file:/C:/xampp/htdocs/david/mensajes/logout.php</file>
+        </group>
     </open-files>
 </project-private>

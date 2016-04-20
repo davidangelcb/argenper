@@ -304,7 +304,31 @@ if (!class_exists('DbArgenper')) {
         {
             return self::$_lastParams;
         }
+        public static function getPrepareInParams(array $params)
+        {
+            foreach ($params as $k => $value) {
+                $params[$k] = self::getInstance()->quote($value);
+            }
+            return implode(',', $params);
+        }
 
+        public static function getPrepareField($field) {
+            $fieldQuote = array();
+            foreach (explode('.', str_replace('`', '', $field)) as $value) {
+                $fieldQuote[] = "`$value`";
+            }
+            return implode('.', $fieldQuote);
+        }
+        
+        public static function sqlIn($field, array $params)
+        {
+            return self::getPrepareField($field) . " IN (" . self::getPrepareInParams($params) . ')';
+        }
+        
+        public static function sqlNotIn($field, array $params)
+        {
+            return self::getPrepareField($field) . " NOT IN (" . self::getPrepareInParams($params) . ')';
+        }
     }
 
 }

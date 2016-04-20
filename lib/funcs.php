@@ -117,6 +117,29 @@ function generatePostMSG($tipo, $url,$user, $pass, $para, $msg=''){
     }    
     return $response;
 }
+function generateGetMSG($url,$user, $pass, $para, $msg=''){
+
+    try{//https://www.mensajesonline.pe/sendsms?app=webservices&ta=pc&u=sms_online&p=P@ssw0rd!2014&to=997720815&grabacion=http://amazon.com/play1
+
+        $a  = "ta=pc&u=".$user."&p=".$pass."&to=".$para."&grab=".$msg;
+ 
+        $opts = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $a
+            )
+        );
+
+        $context  = stream_context_create($opts);
+
+        $response = file_get_contents($url, false, $context);
+         
+    }  catch (Exception $e){
+        $response = 'Error-|-'.  $e->getMessage();
+    }    
+    return $response;
+}
 function valTipoPhone($cel){
     $response = array( "value"=> 'T',"numero"=>$cel);
     $cel = str_replace("+", '', $cel);
@@ -128,6 +151,21 @@ function valTipoPhone($cel){
         $tmp = substr($cel,0,2);
         if($tmp == 51 || $tmp =='51'){
             $response = array( "value"=> 'V',"numero"=>$cel);
+        }
+    }
+    return $response;
+}
+function valNumeroTelefonico($cel){
+    $response = array( "value"=> 'F',"numero"=>$cel);
+    $celular = str_replace("+", '', $cel);
+    $c = strlen($celular);
+    
+    if($c==9){
+        $response = array( "value"=> 'C',"numero"=>'51'.$celular);
+    }elseif($c==11){
+        $tmp = substr($cel,0,2);
+        if($tmp == 51 || $tmp =='51'){
+            $response = array( "value"=> 'C',"numero"=>$celular);
         }
     }
     return $response;
