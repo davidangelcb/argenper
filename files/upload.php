@@ -26,23 +26,16 @@ if (isset($_POST['submit'])) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
         if($data[0]!='Nombre'){
             $datel = date("Y-m-d H:i:s");
-             $text = validacion($data[1],'Demo','AS');
-            if($text!=''){
-                $fallos++;
-            }else{
+
          
                 $params = array(
                      "nombre"=> $data[0],
-                     "celular"=> $data[1],
-                     "valor1"=> $data[2],
-                     "valor2"=> $data[3],
-                     "email"=>$data[4],
+                     "celular"=> $data[1]
                      "fecha_actualizacion"=>$datel,
                      "id_directorio"=>$directorio
-                 );//nombre, celular, valor1,valor2,email
+                 );//nombre, celular
                  $id = DbArgenper::insert("contactos", $params);
                  $ns++;
-            }
         }
     }
     $msg = "";

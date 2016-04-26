@@ -49,12 +49,12 @@
 </div>
 <div id="contactosView" style="display: none;">
     <div class="tituloModulo">CONTACTOS</div>
-    <div class="closeModulo" onclick='gotoView("directorioView","contactosView");closeModulo(1);directorio()'>[ close window ] &nbsp;&nbsp;</div>
+    <div class="closeModulo" onclick='gotoView("directorioView","contactosView");closeModulo(1);'>[ close window ] &nbsp;&nbsp;</div>
     <br><br>                   
     
     <div>
         &nbsp;<a href="javascript:addContacto()" class="classname"  >Agregar Contactos</a>&nbsp;&nbsp;<br><br>
-        &nbsp;<a href='javascript:gotoView("directorioView","contactosView");' class="classname"  >Volver</a>&nbsp;&nbsp;<br><br>
+        &nbsp;<a href='javascript:gotoView("directorioView","contactosView");directorio()' class="classname"  >Volver</a>&nbsp;&nbsp;<br><br>
         &nbsp;<a href="javascript:getSelectedContacts()" class="classname"  >Remover Contacto(s)</a>&nbsp;&nbsp;<br><br>
     </div>
     <div style="clear: both"></div>
