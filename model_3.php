@@ -20,7 +20,7 @@ Solo MP3 y WAV, son los formatos soportado.
 </div>
 <div id="dialog-grabacion"   title="Subir Grabacion" style="display: none;">
         <form name="uploadGra" id="uploadGra" enctype='multipart/form-data' action='models/grabacion_upload.php' method='post' target="bodycsv">
-            <p><input type="hidden" id="directorioActive" name="directorioActive">
+            
             <br><br>
             <label>Nombre:</label><br>
             <input type="text" id="nombregra"  name="nombregra" style="width: 100%">

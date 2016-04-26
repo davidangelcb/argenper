@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
          
                 $params = array(
                      "nombre"=> $data[0],
-                     "celular"=> $data[1]
+                     "celular"=> $data[1],
                      "fecha_actualizacion"=>$datel,
                      "id_directorio"=>$directorio
                  );//nombre, celular
@@ -54,4 +54,7 @@ if (isset($_POST['submit'])) {
     
     fclose($handle);
     echo '<script>alert("'.$msg.'");parent.closeWindowActive();</script>';
-}            
+}    else{
+    $msg= "Ingrese un Archivo Valido!";
+    echo '<script>alert("'.$msg.'");</script>';
+}        

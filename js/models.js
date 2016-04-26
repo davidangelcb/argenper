@@ -253,6 +253,7 @@ function importar(id) {
 function closeWindowActive(){
     document.upload.reset();
     $("#dialog-message").dialog("close");
+    directorio();
 }
 function addGrabacion(){
     $("#dialog-grabacion").dialog({
