@@ -44,7 +44,8 @@ class llamadaController extends Controller {
                 $paramsLLamada  = array(
                     "id_llamada"=>$idllamada,
                     "id_contactos"=>$Contact['id'],
-                    "fecha_ingreso"=>$datel
+                    "fecha_ingreso"=>$datel,
+                    "estatus_api"=>100
                 );
 
                 DbArgenper::insert("llamada_contactos", $paramsLLamada);
@@ -60,6 +61,49 @@ class llamadaController extends Controller {
             $response['message']=$e->getMessage();
         }
          return json_encode($response);
+    }
+    public function listar()
+    {
+         
+        $page =  $this->getParam('page'); 
+        $limit = $this->getParam('rows'); 
+        $sidx =  $this->getParam('sidx'); 
+        $sord =  $this->getParam('sord');
+        //fechaini='+date1+'&fechafinal
+        $fechaini =  $this->getParam('fechaini');
+        $fechafinal =  $this->getParam('fechafinal');
+        
+        if(!$sidx) $sidx =1;
+        
+        $query = "SELECT COUNT(*) AS count from  llamada  where fecha > '".$fechaini." 00:00:00' and fecha < '".$fechafinal." 23:59:50' and estatus='E'";
+	$dataTotal = DbArgenper::fetchOne($query);//
+
+        $count = $dataTotal['count']; 
+        if( $count >0 ) { 
+            $total_pages = ceil($count/$limit); 
+        } else { 
+            $total_pages = 0; 
+        }
+        if ($page > $total_pages){ $page=$total_pages; }
+        if( $count >0 ) { 
+            $start = $limit*$page - $limit; // 
+        }else{
+            $start = 0; // do not put $limit*($page - 1) 
+        }
+
+        $SQL = "SELECT   id,   fecha, nombre, en_proceso, correctos , errores FROM  llamada where fecha > '".$fechaini." 00:00:00' and fecha < '".$fechafinal." 23:59:50' and estatus='E'  ORDER BY id desc LIMIT $start , $limit"; 
+        $giros = DbArgenper::fetchAll($SQL);//fetchAll
+        
+        $response->page = $page; 
+        $response->total = $total_pages; 
+        $response->records = $count; 
+        $i=0;
+        foreach($giros as $row){
+            $response->rows[$i]['id']=$row['id']; 
+            $response->rows[$i]['cell']=array($row['id'],$row['fecha'],$row['nombre'],$row['en_proceso'],$row['correctos'],$row['errores'] ); 
+            $i++; 
+        }
+        return json_encode($response);
     }
 }
 

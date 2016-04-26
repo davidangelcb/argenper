@@ -12,7 +12,7 @@ try {
      inner join llamada ll on ll.id = llc.id_llamada
      inner join argenper_template art on art.id = ll.id_template
      inner join contactos c on c.id = llc.id_contactos
-     where llc.estatus_api=1 and llc.estatus='E' limit 50";
+     where ll.estatus='E' and llc.estatus_api=100 and llc.estatus='E' limit 50";
     $giros = DbArgenper::fetchALL($SQL_ESTADO_ENVIO_1); //get all status 1
     $ids = "";
     $callsVoices = $giros;
@@ -47,7 +47,7 @@ try {
             $tipoMensaje = valNumeroTelefonico($giro['celular']);
             if ($tipoMensaje['value'] == 'C') {
                 $nx = 0;
-                $url = generateGetMSG($urlDomain, USER_SMS, PASS_SMS, $tipoMensaje['numero'], $giro['url']);
+                $url = generateGetMSG(1,$urlDomain, USER_SMS, PASS_SMS, $tipoMensaje['numero'], $giro['url']);
                 echo $url . "<br>";
                 $dat = trim($url);
                 $dataApi = explode("-|-", $dat);
@@ -86,7 +86,7 @@ try {
                                 'estatus_api' => 0,
                                 'fecha_proceso' => $datel,
                                 'id_sms' => $res[1],
-                                'respuesta_api' => "Error, Contacte con en Area Soporte"
+                                'response_api' => "Error: ".$res[0]. "-".$res[1]
                             );
                             DbArgenper::update('llamada_contactos', $params, 'id = ' . $giro['id']);
 
@@ -99,7 +99,7 @@ try {
                         $params = array(
                             'estatus_api' => 0,
                             'fecha_proceso' => $datel,
-                            'respuesta_api' => "Error, Contacte con en Area Soporte",
+                            'response_api' => "Error: ".$res[0] 
                         );
                         DbArgenper::update('llamada_contactos', $params, 'id = ' . $giro['id']);
 
@@ -113,7 +113,7 @@ try {
                 $params = array(
                     'estatus_api' => 0,
                     'fecha_proceso' => $datel,
-                    'respuesta_api' => "Error Numero Celular",
+                    'response_api' => "Error Numero Celular",
                 );
                 DbArgenper::update('llamada_contactos', $params, 'id = ' . $giro['id']);
 

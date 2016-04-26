@@ -83,3 +83,8 @@ defined('awsSecretKey') || define('awsSecretKey', '95pkERp4Vj7IfjJ4jLL9djEMFREPg
 defined('awsBucket') || define('awsBucket', 'mensajesonline');
 defined('awsToolsPrefix') || define('awsToolsPrefix', 'sounds/'); // debe terminar en '/'
 defined('awsWebPrefix') || define('awsWebPrefix', 'docs/'); // debe terminar en '/'
+
+
+defined('S3_SERVICE') || define('S3_SERVICE', false); // debe terminar en '/'
+defined('UPLOAD_FOLDER') || define('UPLOAD_FOLDER', realpath("/")."systems/grabaciones/"); // debe terminar en '/HOME/SYSTEMS/GRABACIONES/' REEMPLAZAR TODO   realpath("/") SE USAR POR DEV EN WINDOW
+ 

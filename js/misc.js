@@ -95,7 +95,8 @@ var menuActive = function(modulo) {
         loadTemplates();
     }
     if(modulo==5){
-        loadTemplates();
+        activeFilterReg();
+        loadLlamadas();        
     }
 };
 function setTemplate(t){
@@ -220,7 +221,7 @@ function activeTemplate(){
             sortname: 'id',
         viewrecords: true,
         sortorder: "desc",
-        caption:"Lista Templates",
+        caption:"Lista de Grabaciones",
         editurl:"ajax_template.php",
         height: 300,
         width:800

@@ -21,15 +21,37 @@ if(isset($_FILES['upload']['name'])) {
  
 			if(file_exists("../temp/".trim($my_upload->pathFile))){
                             try{
-				$newname = awsToolsPrefix.md5unico(trim($my_upload->pathFile)).strtolower(strrchr(trim($my_upload->pathFile),"."));
-				$s3 = new S3(awsAccessKey, awsSecretKey,false);
-                                $s3->putBucket(awsBucket, S3::ACL_PUBLIC_READ);
-                              //if(          $s3->putObjectFile($tmp, $bucket , $actual_image_name, S3::ACL_PUBLIC_READ) )
-				$uploaded1 = $s3->putObjectFile("../temp/".trim($my_upload->pathFile), awsBucket, $newname, S3::ACL_PUBLIC_READ);
-				if($uploaded1){
-					unlink("../temp/".trim($my_upload->pathFile));
+				
+				
+                                if(S3_SERVICE){
+                                    $newname = awsToolsPrefix.md5unico(trim($my_upload->pathFile)).strtolower(strrchr(trim($my_upload->pathFile),"."));
+                                    $s3 = new S3(awsAccessKey, awsSecretKey,false);
+                                    $s3->putBucket(awsBucket, S3::ACL_PUBLIC_READ);
+                                  //if(          $s3->putObjectFile($tmp, $bucket , $actual_image_name, S3::ACL_PUBLIC_READ) )
+                                    $uploaded1 = $s3->putObjectFile("../temp/".trim($my_upload->pathFile), awsBucket, $newname, S3::ACL_PUBLIC_READ);
+                                    if($uploaded1){
+                                            unlink("../temp/".trim($my_upload->pathFile));
+                                            $name = $_POST['nombregra'];
+                                            $s3link="https://".awsBucket.".s3.amazonaws.com/".$newname;
+                                            $params = array(
+                                                "fecha" => date("Y-m-d H:i:s"),
+                                                "titulo"=>  strip_tags($name),
+                                                "url" => $s3link, 
+                                                "file"=> $_FILES['upload']['name']
+                                            );
+                                            DbArgenper::insert('argenper_template', $params);
+                                            $muestra=true;
+                                    }else{
+                                        $msg= "error upload:".print_r($uploaded1);
+                                    }
+                                }else{
+                                    $newname = md5unico(trim($my_upload->pathFile)).strtolower(strrchr(trim($my_upload->pathFile),"."));
+                                    if (!copy("../temp/".trim($my_upload->pathFile), UPLOAD_FOLDER.$newname)) {
+                                        $msg= "error upload file in ".UPLOAD_FOLDER;
+                                    }else{
+                                        unlink("../temp/".trim($my_upload->pathFile));
                                         $name = $_POST['nombregra'];
-                                        $s3link="https://".awsBucket.".s3.amazonaws.com/".$newname;
+                                        $s3link=UPLOAD_FOLDER.$newname;
                                         $params = array(
                                             "fecha" => date("Y-m-d H:i:s"),
                                             "titulo"=>  strip_tags($name),
@@ -37,10 +59,9 @@ if(isset($_FILES['upload']['name'])) {
                                             "file"=> $_FILES['upload']['name']
                                         );
                                         DbArgenper::insert('argenper_template', $params);
-					$muestra=true;
-				}else{
-                                    $msg= "error upload:".print_r($uploaded1);
-				}
+                                        $muestra=true;
+                                    }
+                                }
                               }  catch (Exception $Ex){
                                   $msg = $Ex->getMessage();
                               }

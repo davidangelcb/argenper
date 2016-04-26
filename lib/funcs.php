@@ -117,12 +117,15 @@ function generatePostMSG($tipo, $url,$user, $pass, $para, $msg=''){
     }    
     return $response;
 }
-function generateGetMSG($url,$user, $pass, $para, $msg=''){
+function generateGetMSG($tipo,$url,$user, $pass, $para, $msg=''){
 
-    try{//https://www.mensajesonline.pe/sendsms?app=webservices&ta=pc&u=sms_online&p=P@ssw0rd!2014&to=997720815&grabacion=http://amazon.com/play1
-
-        $a  = "ta=pc&u=".$user."&p=".$pass."&to=".$para."&grab=".$msg;
- 
+    try{
+//https://www.mensajesonline.pe/sendsms?app=webservices&ta=cs&u=sms_online&p=P@ssw0rd!2014&=1154779
+//https://www.mensajesonline.pe/sendsms?app=webservices&ta=pc&u=sms_online&p=P@ssw0rd!2014&to=997720815&grabacion=http://amazon.com/play1
+        switch($tipo){
+            case 1:  $a  = "ta=pc&u=".$user."&p=".$pass."&to=".$para."&grab=".$msg; break;
+            case 2:  $a  = "ta=cs&u=".$user."&p=".$pass."&clid=".$para; break;
+        }
         $opts = array('http' =>
             array(
                 'method'  => 'POST',
@@ -156,8 +159,9 @@ function valTipoPhone($cel){
     return $response;
 }
 function valNumeroTelefonico($cel){
-    $response = array( "value"=> 'F',"numero"=>$cel);
     $celular = str_replace("+", '', $cel);
+    $response = array( "value"=> 'C',"numero"=>$celular);
+    
     $c = strlen($celular);
     
     if($c==9){
@@ -289,5 +293,17 @@ function  validacionTwo($cel,$msg,$arg){
     }else{
         return 'Validacion Celular(7)';
     }
+}
+function getEstadoDescri($estado,$msgExt=''){
+    switch((int)$estado){
+            case 0: $msg= "Fallo: ".$msgExt; break;
+            case 1: $msg= "Enviado a MensajesOnline.pe"; break;
+            case 2: $msg= "En espera por MensajesOnline.pe"; break;
+            case 3: $msg= "Fallo en MensajesOnline.pe"; break;
+            case 4: $msg= "Se envio Correctamente"; break;
+            case 5: $msg= "Error: ".$msgExt; break;
+            default: $msg= "En Proceso"; break;
+        }
+    return $msg;    
 }
 ?>

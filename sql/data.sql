@@ -1,0 +1,1 @@
+INSERT INTO `argenper_users` (`iduser`, `usuario`, `password`, `nombre`, `apellido`, `telefono`, `email`, `tipo`, `estado`, `intentos`) VALUES (1, 'admin', '85587e3aa839ec03b0967408ca2192f9', 'Admin', '.', '987-897-987', 'info@mensajesonline.pe', 'A', 'E', 0);
