@@ -12,7 +12,9 @@ try {
      inner join llamada ll on ll.id = llc.id_llamada
      inner join argenper_template art on art.id = ll.id_template
      inner join contactos c on c.id = llc.id_contactos
-     where ll.estatus='E' and llc.estatus_api=100 and llc.estatus='E' limit 50";
+     where ll.estatus='E' and llc.estatus_api in (6,101) and llc.estatus='E' and 
+     NOW() > DATE_ADD(llc.fecha_proceso, INTERVAL 1 HOUR) 
+      limit 50";
     $giros = DbArgenper::fetchALL($SQL_ESTADO_ENVIO_1); //get all status 1
     $ids = "";
     $callsVoices = $giros;
@@ -23,12 +25,12 @@ try {
             $ids.="," . $girito['id'];
         }
     }
-    //print_r($callsVoices);
+    print_r($callsVoices);
     $datel = date("Y-m-d H:i:s");
     if ($ids != "") {
         $arrayIds = explode(",", $ids);
         $query = "update llamada_contactos set fecha_proceso='" . $datel . "' ,estatus_api=101 where " . DbArgenper::sqlIn('id', $arrayIds);
-        DbArgenper::exec($query);    
+        DbArgenper::exec($query);
     } else {
         $procesa = false;
     }

@@ -95,4 +95,18 @@ STRHTML;
         $html.= '    </select>';
         return $html;
     } 
+    public function mp3($param) {
+        $mp3 = file_get_contents(realpath($param['url']));
+
+        file_put_contents('../temp/test_preview.mp3', $mp3);
+
+
+        $url  = realpath($param['url']);
+$HTMLDINAMIC = <<<STRHTML
+<audio controls> 
+    <source src='temp/test_preview.mp3' type='audio/mpeg'> 
+</audio>
+STRHTML;
+return $HTMLDINAMIC;
+    }    
 }

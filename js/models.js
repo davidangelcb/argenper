@@ -1,3 +1,24 @@
+function openMp3(id){
+    
+    
+    $.ajax({
+        url: 'models/grabacion.php',
+        type: 'post',
+        data: {
+            oper: 'getMp3',idt: id},
+
+        success: function (data) {
+
+            var html = data;            
+            $("#mp3File").html(html);
+            $("#dialog-mp3").dialog({
+                width: 400,
+                modal: true 
+            });
+        }
+    });
+
+}
 function directorio() {
     $.ajax({
         url: 'models/directorio.php',

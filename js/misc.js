@@ -222,11 +222,13 @@ function activeTemplate(){
         viewrecords: true,
         sortorder: "desc",
         caption:"Lista de Grabaciones",
+        ondblClickRow: function(id){ openMp3(id);},
         editurl:"ajax_template.php",
         height: 300,
         width:800
     });
 }
+
 function addTemplate(){
 	jQuery("#addgrid").jqGrid('editGridRow',"new",{height:280,reloadAfterSubmit:true,afterSubmit: afterSaveAdd,closeAfterAdd: true});
 }
