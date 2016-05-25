@@ -35,13 +35,14 @@
         </div>
     </div>
     <div id="dialog-message" title="Import CSV" style="display: none;">
-        <form name="upload" id="upload" enctype='multipart/form-data' action='files/upload.php' method='post' target="bodycsv">
+        <form name="upload" id="upload" enctype='multipart/form-data' action='files/upload.php' method='post' target="bodycsv" onsubmit="return invalidButton(this)">
             <p><input type="hidden" id="directorioActive" name="directorioActive">
             <br><br>
         </p>CSV Unico formato permitido, Seleccione File:<br><br>
         </p>
         <p><input size='50' type='file' name='filename'><br /><br>
-          <input type='submit' name='submit' value='Upload'></form>
+          <div  id="botonUpload"><input type='submit' name='submit' value='Upload'></div>
+          </form>
         </p>
     </div>
     

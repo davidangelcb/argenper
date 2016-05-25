@@ -86,7 +86,7 @@ class DirectorioController extends Controller {
          return json_encode($response);
     }
      public function listarSelect(){
-        $query = "select id,nombre  from directorio where estatus=?";
+        $query = "select id,nombre,miembros   from directorio where estatus=?";
         $directorio = DbArgenper::fetchAll($query,'E');
         $html = view::selectGrupos($directorio);     
          

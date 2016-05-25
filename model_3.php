@@ -34,6 +34,10 @@ Solo MP3 y WAV, son los formatos soportado.
             </p>
         </form>
 </div>
+<div id="dialog-mp3" title="Audio File" style="display: none;">
+   <div>Audio:<br><br></div>
+   <div id="mp3File"></div>
+</div>
  <div style="clear: both"></div>
  <div style="width: 99%; margin: 0 auto;" >
     <table id="addgrid" ></table> <div id="pagerad" ></div>

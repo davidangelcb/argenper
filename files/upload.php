@@ -7,7 +7,7 @@ require_once("../lib/funcs.php");
  * FUNCTIONS
  */
 
-if (isset($_POST['submit'])) {
+if (isset($_FILES['filename']['tmp_name'])) {
 
     if (is_uploaded_file($_FILES['filename']['tmp_name'])) {
 
@@ -56,5 +56,5 @@ if (isset($_POST['submit'])) {
     echo '<script>alert("'.$msg.'");parent.closeWindowActive();</script>';
 }    else{
     $msg= "Ingrese un Archivo Valido!";
-    echo '<script>alert("'.$msg.'");</script>';
+    echo '<script>alert("'.$msg.'");parent.validButton(); </script>';
 }        

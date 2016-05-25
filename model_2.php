@@ -25,4 +25,7 @@
     <div style="text-align: left" id="callBotones"> &nbsp;<a href="javascript:sendCalls()" class="classnameSmall"  > SEND CALLS</a> &nbsp; </div>
     <br><br>
     
+    <div id="dialog-confirm-calls" title="Seguro de Hacer las Llamadas?" style="display:none">
+      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;" ></span>Se Van a Realizar <b id='sumContactView'></b> llamadas. Esta Seguro?</p>
+    </div>
 </div>    

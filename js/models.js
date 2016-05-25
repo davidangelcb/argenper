@@ -275,6 +275,7 @@ function closeWindowActive(){
     document.upload.reset();
     $("#dialog-message").dialog("close");
     directorio();
+    validButton();
 }
 function addGrabacion(){
     $("#dialog-grabacion").dialog({

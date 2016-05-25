@@ -1,66 +1,93 @@
 function addGrupoSelect(){
     $('#select-from option:selected').each( function() {
-                $('#select-to').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+                $('#select-to').append("<option value='"+$(this).val()+"' count='"+$(this).attr('count')+"'>"+$(this).text()+"</option>");
             $(this).remove();
     });    
 }
 function addGrupoSelectAll(){
     $('#select-from option').each( function() {
-                $('#select-to').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+                $('#select-to').append("<option value='"+$(this).val()+"' count='"+$(this).attr('count')+"'>"+$(this).text()+"</option>");
             $(this).remove();
     });
 }
 function delGrupoSelect(){
     $('#select-to option:selected').each( function() {
-            $('#select-from').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+            $('#select-from').append("<option value='"+$(this).val()+"' count='"+$(this).attr('count')+"'>"+$(this).text()+"</option>");
             $(this).remove();
     }); 
 }
 function delGrupoSelectAll(){
     $('#select-to option').each( function() {
-            $('#select-from').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+            $('#select-from').append("<option value='"+$(this).val()+"' count='"+$(this).attr('count')+"'>"+$(this).text()+"</option>");
             $(this).remove();
     });
 }
+var sendCallsAct = true;
 function sendCalls(){
-    var ids = '0';
-    $('#select-to option').each( function() {
-            //$('#select-from').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
-            ids += ','+$(this).val();
-    });
-    
-    var idTemplate = $('#templateActive').val();
-    if(idTemplate=='0'){
-        alert("Seleccione Grabacion Valida!");
-        return;
-    }
-    if(ids=='0'){
-        alert("Seleccione algun Grupo!");
-        return;
-    }
-    var htmlcall =$('#callBotones').html(); 
-     $('#callBotones').html("Procesando..."); 
-    $.ajax({
-        url: 'models/llamada.php',
-        type: 'post',
-        async: false,
-        data: {
-            oper: 'add', 'idtemplate': idTemplate, 'ids': ids
+    if(sendCallsAct){
+        var ids = '0';
+        var sumContact = 0;
+        $('#select-to option').each( function() {
+                //$('#select-from').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+                ids += ','+$(this).val();
+                sumContact+= parseInt($(this).attr('count'));
+        });
+        
+        var idTemplate = $('#templateActive').val();
+        if(idTemplate=='0'){
+            alert("Seleccione Grabacion Valida!");
+            return;
         }
-        ,
-        dataType: 'json',
-        success: function (data) {
-            $('#callBotones').html(htmlcall); 
-            if(data.error==0){
-                resetAll();
-                alert("Se envio a Procesar correctamente!");
-            }else{
+        if(ids=='0'){
+            alert("Seleccione algun Grupo!");
+            return;
+        }
+        var htmlcall =$('#callBotones').html(); 
+        $('#callBotones').html("Procesando..."); 
+        sendCallsAct  = false;
+
+        $('#sumContactView').html(sumContact); 
+
+        $( "#dialog-confirm-calls" ).dialog({
+          resizable: false,
+          height:140,
+          modal: true,
+          buttons: {
+            "Aceptar": function() {
+                $( this ).dialog( "close" );
+
+                $.ajax({
+                    url: 'models/llamada.php',
+                    type: 'post',
+                    async: false,
+                    data: {
+                        oper: 'add', 'idtemplate': idTemplate, 'ids': ids
+                    }
+                    ,
+                    dataType: 'json',
+                    success: function (data) {
+                        sendCallsAct  = true;
+                        $('#callBotones').html(htmlcall); 
+                        if(data.error==0){
+                            resetAll();
+                            alert("Se envio a Procesar correctamente!");
+                        }else{
+                            
+                            alert(data.message);                            
+                        }
+                    }
+                }); 
                 
-                alert(data.message);
-                
+            },
+            "Cancelar": function() {
+              $('#callBotones').html(htmlcall);   
+              sendCallsAct  = true;
+              $( this ).dialog( "close" );
             }
-        }
-    }); 
+          }
+        });
+        
+    }
 }
 function resetAll(){
     delGrupoSelectAll();
@@ -186,4 +213,15 @@ function buscarCriterioX(n){
                     }
                 }    
             });
+}
+
+function invalidButton(form){
+    if(form.filename.value!=''){
+       $("#botonUpload").html("Subiendo Archivo...");
+       return true;    
+    }
+    return false;
+}
+function validButton(){
+    $("#botonUpload").html("<input type='submit' name='submit' value='Upload'>");
 }

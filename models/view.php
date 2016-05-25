@@ -90,7 +90,7 @@ STRHTML;
        
        $html.= '      <select name="selectfrom" id="select-from" multiple size="5" class="multiple-select">';
        foreach ($array as $value) {
-           $html.= '<option value="'.$value['id'].'">'.$value['nombre'].'</option>';
+           $html.= '<option value="'.$value['id'].'" count="'.$value['miembros'].'">'.$value['nombre'].'</option>';
        } 
         $html.= '    </select>';
         return $html;
